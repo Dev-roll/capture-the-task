@@ -9,12 +9,16 @@ interface TaskDao {
     fun getAllTasks(): Flow<List<Task>>
 
     @Query("SELECT * from tasks WHERE id = :id")
-    fun getTask(id: Int): Flow<Task>
+    fun getTask(id: String): Flow<Task>
 
     // Specify the conflict strategy as IGNORE, when the user tries to add an
     // existing Task into the database Room ignores the conflict.
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(task: Task)
+
+
+    @Query("UPDATE tasks SET completed = :completed WHERE entryid = :taskId")
+    suspend fun updateCompleted(id: String, completed: Boolean)
 
     @Update
     suspend fun update(task: Task)
