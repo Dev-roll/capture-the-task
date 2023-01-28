@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.*
+import androidx.compose.runtime.*
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.rounded.Add
@@ -125,8 +127,7 @@ private fun TaskItem(
             .padding(vertical = 16.dp)
         ) {
             Text(
-                text = task.title,
-                fontSize = 20.sp
+                text = item.title,
             )
 //            val checked by remember { mutableStateOf(task.isCompleted) }
             IconToggleButton(
@@ -134,8 +135,8 @@ private fun TaskItem(
                 onCheckedChange = onCheckedChange,
             ) {
                 Icon(
-                    imageVector = if (task.isCompleted) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                    contentDescription = if (task.isCompleted) "favorite on" else "favorite off",
+                    imageVector = if (task.isCompleted) Icons.Rounded.TaskAlt else Icons.Rounded.RadioButtonUnchecked,
+                    contentDescription = if (task.isCompleted) "check on" else "check off",
                 )
             }
         }
