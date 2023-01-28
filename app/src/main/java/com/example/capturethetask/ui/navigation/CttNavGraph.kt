@@ -39,7 +39,10 @@ fun CttNavHost(
             TaskEntryScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
-                navigateToHome = { navController.navigate(HomeDestination.route) },
+                navigateToHome = {
+                    navController.popBackStack()
+                    navController.popBackStack()
+                },
             )
         }
     }

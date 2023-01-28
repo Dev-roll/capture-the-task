@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -45,12 +45,13 @@ fun CaptureScreen(
                 modifier = Modifier.navigationBarsPadding()
             ) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                    imageVector = Icons.Rounded.PhotoCamera,
                     contentDescription = stringResource(R.string.task_entry_title),
                     tint = MaterialTheme.colors.onPrimary
                 )
             }
         },
+        floatingActionButtonPosition = FabPosition.Center,
     ) { innerPadding ->
         Text(text = "home screen", modifier = modifier.padding(innerPadding))
     }
