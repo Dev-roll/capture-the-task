@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.rounded.AddTask
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -41,19 +41,7 @@ fun TaskEntryScreen(
                 canNavigateBack = canNavigateBack,
                 navigateUp = onNavigateUp
             )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = navigateToHome,
-                modifier = Modifier.navigationBarsPadding()
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.task_entry_title),
-                    tint = MaterialTheme.colors.onPrimary
-                )
-            }
-        },
+        }
     ) { innerPadding ->
         TaskEntryBody(
             taskUiState = viewModel.taskUiState,
@@ -88,7 +76,14 @@ fun TaskEntryBody(
             enabled = taskUiState.isEntryValid,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(stringResource(R.string.save_action))
+            Row {
+                Icon(
+                    imageVector = Icons.Rounded.AddTask,
+                    contentDescription = stringResource(R.string.save_action)
+                )
+                Spacer(Modifier.size(8.dp))
+                Text(stringResource(R.string.save_action))
+            }
         }
     }
 }
