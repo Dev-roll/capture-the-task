@@ -1,4 +1,4 @@
-package com.example.capturethetask.view.theme
+package com.example.capturethetask.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
