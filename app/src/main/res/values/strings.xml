@@ -1,11 +1,21 @@
 <resources>
+    <!-- CTT -->
     <string name="app_name">Capture The Task</string>
+
+    <!-- Home -->
+    <string name="home_title">Home</string>
+    <string name="add_button">Add a New Task</string>
+
+    <!-- Capture -->
+    <string name="capture_title">Capture</string>
+
+    <!-- Entry -->
+    <string name="task_entry_title">New Task</string>
     <string name="task_title_req">Title</string>
     <string name="task_description_req">Description</string>
     <string name="save_action">Save</string>
-    <string name="task_entry_title">New Task</string>
+
+    <!-- Other -->
     <string name="back_button">Back</string>
-    <string name="capture_title">Capture</string>
-    <string name="home_title">Home</string>
     <string name="no_item_description">no_item_description</string>
 </resources>

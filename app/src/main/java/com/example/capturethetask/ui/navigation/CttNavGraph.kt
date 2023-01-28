@@ -24,20 +24,22 @@ fun CttNavHost(
     ) {
         composable(route = HomeDestination.route) {
             HomeScreen(
-                navigateToTaskEntry = { navController.navigate(TaskEntryDestination.route) },
+                navigateToCapture = { navController.navigate(CaptureDestination.route) },
                 navigateToTaskUpdate = { navController.navigateUp() }
-            )
-        }
-        composable(route = TaskEntryDestination.route) {
-            TaskEntryScreen(
-                navigateBack = { navController.popBackStack() },
-                onNavigateUp = { navController.navigateUp() }
             )
         }
         composable(route = CaptureDestination.route) {
             CaptureScreen(
                 navigateBack = { navController.popBackStack() },
-                onNavigateUp = { navController.navigateUp() }
+                onNavigateUp = { navController.navigateUp() },
+                navigateToTaskEntry = { navController.navigate(TaskEntryDestination.route) },
+            )
+        }
+        composable(route = TaskEntryDestination.route) {
+            TaskEntryScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() },
+                navigateToHome = { navController.navigate(HomeDestination.route) },
             )
         }
     }
