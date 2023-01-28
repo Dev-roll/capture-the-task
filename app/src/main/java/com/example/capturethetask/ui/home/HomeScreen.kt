@@ -7,13 +7,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -120,9 +120,6 @@ private fun TaskItem(
         ) {
             Text(
                 text = item.title,
-                fontSize = 20.sp
-//            modifier = Modifier.weight(1.5f),
-//            fontWeight = FontWeight.Bold
             )
             var checked by remember { mutableStateOf(item.isCompleted) }
             IconToggleButton(
@@ -130,7 +127,7 @@ private fun TaskItem(
                 onCheckedChange = { checked = it },
             ) {
                 Icon(
-                    imageVector = if (checked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    imageVector = if (checked) Icons.Rounded.TaskAlt else Icons.Rounded.RadioButtonUnchecked,
                     contentDescription = if (checked) "favorite on" else "favorite off",
                 )
             }
