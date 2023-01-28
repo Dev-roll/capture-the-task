@@ -2,7 +2,6 @@ package com.example.capturethetask
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
@@ -22,14 +21,6 @@ class MainActivity : ComponentActivity() {
                     CttApp()
                 }
             }
-        }
-
-        onBackPressedDispatcher.addCallback(callback)
-    }
-
-    private val callback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            return
         }
     }
 }
