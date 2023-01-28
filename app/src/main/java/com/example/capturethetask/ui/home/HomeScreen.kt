@@ -1,24 +1,21 @@
 package com.example.capturethetask.ui.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.*
+import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.rounded.*
-import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -64,6 +61,7 @@ fun HomeScreen(
         HomeBody(
             itemList = homeUiState.itemList,
             onTaskClick = navigateToTaskUpdate,
+            onTaskCheckedChange = viewModel::completeTask,
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -73,6 +71,7 @@ fun HomeScreen(
 private fun HomeBody(
     itemList: List<Task>,
     onTaskClick: (String) -> Unit,
+    onTaskCheckedChange: (Task, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -87,7 +86,11 @@ private fun HomeBody(
                 style = MaterialTheme.typography.subtitle2
             )
         } else {
-            TaskList(itemList = itemList, onTaskClick = { onTaskClick(it.id) })
+            TaskList(
+                itemList = itemList,
+                onTaskClick = { onTaskClick(it.id) },
+                onTaskCheckedChange = onTaskCheckedChange
+            )
         }
     }
 }
@@ -96,11 +99,15 @@ private fun HomeBody(
 private fun TaskList(
     itemList: List<Task>,
     onTaskClick: (Task) -> Unit,
+    onTaskCheckedChange: (Task, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         items(items = itemList, key = { it.id }) { item ->
-            TaskItem(item = item, onTaskClick = onTaskClick)
+            TaskItem(
+                task = item,
+                onTaskClick = onTaskClick,
+                onCheckedChange = { onTaskCheckedChange(item, it) })
             Divider()
         }
     }
@@ -108,27 +115,28 @@ private fun TaskList(
 
 @Composable
 private fun TaskItem(
-    item: Task,
+    task: Task,
     onTaskClick: (Task) -> Unit,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box {
         Row(modifier = modifier
             .fillMaxWidth()
-            .clickable { onTaskClick(item) }
+            .clickable { onTaskClick(task) }
             .padding(vertical = 16.dp)
         ) {
             Text(
                 text = item.title,
             )
-            var checked by remember { mutableStateOf(item.isCompleted) }
+//            val checked by remember { mutableStateOf(task.isCompleted) }
             IconToggleButton(
-                checked = checked,
-                onCheckedChange = { checked = it },
+                checked = task.isCompleted,
+                onCheckedChange = onCheckedChange,
             ) {
                 Icon(
-                    imageVector = if (checked) Icons.Rounded.TaskAlt else Icons.Rounded.RadioButtonUnchecked,
-                    contentDescription = if (checked) "favorite on" else "favorite off",
+                    imageVector = if (task.isCompleted) Icons.Rounded.TaskAlt else Icons.Rounded.RadioButtonUnchecked,
+                    contentDescription = if (task.isCompleted) "check on" else "check off",
                 )
             }
         }
