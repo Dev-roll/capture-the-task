@@ -1,5 +1,6 @@
 package com.example.capturethetask.ui.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,10 +11,16 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.capturethetask.R
 import com.example.capturethetask.model.Task
@@ -105,19 +112,29 @@ private fun TaskItem(
     onTaskClick: (Task) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier
-        .fillMaxWidth()
-        .clickable { onTaskClick(item) }
-        .padding(vertical = 16.dp)
-    ) {
-        Text(
-            text = item.title,
-            modifier = Modifier.weight(1.5f),
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = item.description,
-            modifier = Modifier.weight(1.0f)
-        )
+    Box {
+        Row(modifier = modifier
+            .fillMaxWidth()
+            .clickable { onTaskClick(item) }
+            .padding(vertical = 16.dp)
+        ) {
+            Text(
+                text = item.title,
+                fontSize = 20.sp
+//            modifier = Modifier.weight(1.5f),
+//            fontWeight = FontWeight.Bold
+            )
+            var checked by remember { mutableStateOf(item.isCompleted) }
+            IconToggleButton(
+                checked = checked,
+                onCheckedChange = { checked = it },
+            ) {
+                Icon(
+                    imageVector = if (checked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = if (checked) "favorite on" else "favorite off",
+                )
+            }
+        }
     }
+
 }

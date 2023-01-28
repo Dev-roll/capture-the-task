@@ -11,12 +11,16 @@ interface TasksRepository {
     /**
      * Retrieve an item from the given data source that matches with the [id].
      */
-    fun getTaskStream(id: Int): Flow<Task?>
+    fun getTaskStream(id: String): Flow<Task?>
 
     /**
      * Insert item in the data source
      */
     suspend fun insertTask(task: Task)
+
+    suspend fun completeTask(task: Task)
+
+    suspend fun activateTask(task: Task)
 
     /**
      * Delete task: Task from the data source
