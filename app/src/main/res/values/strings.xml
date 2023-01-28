@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Capture The Task</string>
+    <string name="task_title_req">Title</string>
+    <string name="task_description_req">Description</string>
+    <string name="save_action">Save</string>
+    <string name="task_entry_title">New Task</string>
+    <string name="back_button">Back</string>
+    <string name="capture_title">Capture</string>
+    <string name="home_title">Home</string>
 </resources>
