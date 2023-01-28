@@ -5,6 +5,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddTask
+import androidx.compose.material.icons.rounded.Checklist
+import androidx.compose.material.icons.rounded.Notes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -17,7 +19,6 @@ import com.example.capturethetask.ui.AppViewModelProvider
 import com.example.capturethetask.ui.components.CttTopAppBar
 import com.example.capturethetask.ui.navigation.NavigationDestination
 import kotlinx.coroutines.launch
-import java.util.*
 
 object TaskEntryDestination : NavigationDestination {
     override val route = "task_entry"
@@ -100,6 +101,13 @@ fun TaskInputForm(
             value = taskDetails.title,
             onValueChange = { onValueChange(taskDetails.copy(title = it)) },
             label = { Text(stringResource(R.string.task_title_req)) },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.Checklist, contentDescription = stringResource(
+                        id = R.string.task_title_req
+                    )
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
@@ -109,7 +117,13 @@ fun TaskInputForm(
             onValueChange = { onValueChange(taskDetails.copy(description = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             label = { Text(stringResource(R.string.task_description_req)) },
-            leadingIcon = { Text(Currency.getInstance(Locale.getDefault()).symbol) },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.Notes, contentDescription = stringResource(
+                        id = R.string.task_description_req
+                    )
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = false
