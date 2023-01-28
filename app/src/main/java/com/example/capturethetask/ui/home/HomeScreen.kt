@@ -15,10 +15,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.capturethetask.CttTopAppBar
 import com.example.capturethetask.R
 import com.example.capturethetask.model.Task
 import com.example.capturethetask.ui.AppViewModelProvider
+import com.example.capturethetask.ui.components.CttTopAppBar
 import com.example.capturethetask.ui.navigation.NavigationDestination
 
 object HomeDestination : NavigationDestination {
@@ -28,7 +28,7 @@ object HomeDestination : NavigationDestination {
 
 @Composable
 fun HomeScreen(
-    navigateToTaskEntry: () -> Unit,
+    navigateToCapture: () -> Unit,
     navigateToTaskUpdate: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -43,7 +43,7 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToTaskEntry,
+                onClick = navigateToCapture,
                 modifier = Modifier.navigationBarsPadding()
             ) {
                 Icon(

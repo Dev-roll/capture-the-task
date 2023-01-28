@@ -17,28 +17,3 @@ import com.example.capturethetask.ui.navigation.CttNavHost
 fun CttApp(navController: NavHostController = rememberNavController()) {
     CttNavHost(navController = navController)
 }
-
-@Composable
-fun CttTopAppBar(
-    title: String,
-    canNavigateBack: Boolean,
-    modifier: Modifier = Modifier,
-    navigateUp: () -> Unit = {}
-) {
-    if (canNavigateBack) {
-        TopAppBar(
-            title = { Text(title) },
-            modifier = modifier,
-            navigationIcon = {
-                IconButton(onClick = navigateUp) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back_button)
-                    )
-                }
-            }
-        )
-    } else {
-        TopAppBar(title = { Text(title) }, modifier = modifier)
-    }
-}

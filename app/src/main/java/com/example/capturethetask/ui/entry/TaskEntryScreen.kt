@@ -1,14 +1,10 @@
 package com.example.capturethetask.ui.entry
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -16,9 +12,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.capturethetask.CttTopAppBar
 import com.example.capturethetask.R
 import com.example.capturethetask.ui.AppViewModelProvider
+import com.example.capturethetask.ui.components.CttTopAppBar
 import com.example.capturethetask.ui.navigation.NavigationDestination
 import kotlinx.coroutines.launch
 import java.util.*
@@ -32,25 +28,40 @@ object TaskEntryDestination : NavigationDestination {
 fun TaskEntryScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
+    navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
     canNavigateBack: Boolean = true,
     viewModel: TaskEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
-    Scaffold(topBar = {
-        CttTopAppBar(
-            title = stringResource(TaskEntryDestination.titleRes),
-            canNavigateBack = canNavigateBack,
-            navigateUp = onNavigateUp
-        )
-    }) { innerPadding ->
+    Scaffold(
+        topBar = {
+            CttTopAppBar(
+                title = stringResource(TaskEntryDestination.titleRes),
+                canNavigateBack = canNavigateBack,
+                navigateUp = onNavigateUp
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateToHome,
+                modifier = Modifier.navigationBarsPadding()
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.task_entry_title),
+                    tint = MaterialTheme.colors.onPrimary
+                )
+            }
+        },
+    ) { innerPadding ->
         TaskEntryBody(
             taskUiState = viewModel.taskUiState,
             onTaskValueChange = viewModel::updateUiState,
             onSaveClick = {
                 coroutineScope.launch {
                     viewModel.saveTask()
-                    navigateBack()
+                    navigateToHome()
                 }
             },
             modifier = modifier.padding(innerPadding)
