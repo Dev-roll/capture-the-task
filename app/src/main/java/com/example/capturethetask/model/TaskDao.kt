@@ -17,7 +17,7 @@ interface TaskDao {
     suspend fun insert(task: Task)
 
 
-    @Query("UPDATE tasks SET completed = :completed WHERE entryid = :taskId")
+    @Query("UPDATE tasks SET completed = :completed WHERE id = :id")
     suspend fun updateCompleted(id: String, completed: Boolean)
 
     @Update
