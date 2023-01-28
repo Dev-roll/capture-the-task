@@ -127,7 +127,7 @@ private fun TaskItem(
             .padding(vertical = 16.dp)
         ) {
             Text(
-                text = item.title,
+                text = task.title,
             )
 //            val checked by remember { mutableStateOf(task.isCompleted) }
             IconToggleButton(
