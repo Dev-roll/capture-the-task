@@ -38,11 +38,18 @@ data class TaskDetails(
     val id: String = UUID.randomUUID().toString(),
     val title: String = "",
     val description: String = "",
-    val isCompleted: Boolean = false
+    val isCompleted: Boolean = false,
+    val isStarred: Boolean = false,
+    val filepath: String = "",
 )
 
 fun TaskDetails.toTask(): Task = Task(
-    id = id, title = title, description = description, isCompleted = isCompleted
+    id = id,
+    title = title,
+    description = description,
+    isCompleted = isCompleted,
+    isStarred = isStarred,
+    filePath = filepath
 )
 
 fun Task.toTaskUiState(isEntryValid: Boolean = false): TaskUiState = TaskUiState(
@@ -50,7 +57,12 @@ fun Task.toTaskUiState(isEntryValid: Boolean = false): TaskUiState = TaskUiState
 )
 
 fun Task.toTaskDetails(): TaskDetails = TaskDetails(
-    id = id, title = title, description = description, isCompleted = isCompleted
+    id = id,
+    title = title,
+    description = description,
+    isCompleted = isCompleted,
+    isStarred = isStarred,
+    filepath = filePath
 )
 
 fun TaskDetails.isValid(): Boolean {
