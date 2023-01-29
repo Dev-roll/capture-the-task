@@ -53,6 +53,7 @@ dependencies {
     def nav_version = "2.5.3"
     def accompanist_permissions_version = "0.28.0"
     def camerax_version = "1.1.0-beta01"
+    def coil_version = "2.2.2"
 
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
@@ -69,6 +70,8 @@ dependencies {
     implementation "androidx.camera:camera-video:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_version"
     implementation "androidx.camera:camera-extensions:$camerax_version"
+
+    implementation "io.coil-kt:coil-compose:$coil_version"
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
