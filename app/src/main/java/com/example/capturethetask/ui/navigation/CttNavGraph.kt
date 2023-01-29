@@ -30,12 +30,14 @@ fun CttNavHost(
         }
         composable(route = CaptureDestination.route) {
             CaptureScreen(
+                navController = navController,
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
                 navigateToTaskEntry = { navController.navigate(TaskEntryDestination.route) },
             )
         }
         composable(route = TaskEntryDestination.route) {
+            val uri = it.arguments?.getString("uri") ?: ""
             TaskEntryScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
@@ -43,6 +45,7 @@ fun CttNavHost(
                     navController.popBackStack()
                     navController.popBackStack()
                 },
+                uri = uri
             )
         }
     }
