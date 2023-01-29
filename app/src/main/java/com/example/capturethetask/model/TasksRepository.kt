@@ -22,6 +22,10 @@ interface TasksRepository {
 
     suspend fun activateTask(task: Task)
 
+    suspend fun starTask(task: Task)
+
+    suspend fun unStarTask(task: Task)
+
     /**
      * Delete task: Task from the data source
      */
