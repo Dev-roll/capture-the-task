@@ -1,17 +1,23 @@
 package com.example.capturethetask.ui.entry
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddTask
 import androidx.compose.material.icons.rounded.Checklist
 import androidx.compose.material.icons.rounded.Notes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusOrder
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.capturethetask.R
@@ -96,6 +102,10 @@ fun TaskInputForm(
     onValueChange: (TaskDetails) -> Unit = {},
     enabled: Boolean = true
 ) {
+    val titleFocusRequester = remember { FocusRequester() }
+    val descriptionFocusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         OutlinedTextField(
             value = taskDetails.title,
@@ -108,14 +118,20 @@ fun TaskInputForm(
                     )
                 )
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(titleFocusRequester)
+                .focusOrder(titleFocusRequester) {
+                    next = descriptionFocusRequester
+                    down = descriptionFocusRequester
+                },
             enabled = enabled,
-            singleLine = true
+            singleLine = true,
+            keyboardActions = KeyboardActions { focusManager.moveFocus(FocusDirection.Next) }
         )
         OutlinedTextField(
             value = taskDetails.description,
             onValueChange = { onValueChange(taskDetails.copy(description = it)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             label = { Text(stringResource(R.string.task_description_req)) },
             leadingIcon = {
                 Icon(
@@ -124,9 +140,15 @@ fun TaskInputForm(
                     )
                 )
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(descriptionFocusRequester),
             enabled = enabled,
             singleLine = false
         )
+    }
+
+    LaunchedEffect(Unit) {
+        titleFocusRequester.requestFocus()
     }
 }
