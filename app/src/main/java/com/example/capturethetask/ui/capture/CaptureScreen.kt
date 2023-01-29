@@ -1,8 +1,10 @@
 package com.example.capturethetask.ui.capture
 
-import android.util.Log
+import android.os.Build
+import android.os.ext.SdkExtensions.getExtensionVersion
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -27,6 +29,7 @@ object CaptureDestination : NavigationDestination {
     override val titleRes = R.string.capture_title
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun CaptureScreen(
     navigateBack: () -> Unit,
@@ -58,14 +61,44 @@ fun CaptureScreen(
                     )
                 }
                 IconButton(onClick = { /*TODO*/
-                    MainActivity().selectImage()
+                    handlePhotoPickerLaunch()
                 }) {
-                    Icon(imageVector = Icons.Rounded.Image, contentDescription = stringResource(id = R.string.pick_button))
+                    Icon(
+                        imageVector = Icons.Rounded.Image,
+                        contentDescription = stringResource(id = R.string.pick_button)
+                    )
                 }
             }
         },
         floatingActionButtonPosition = FabPosition.Center,
     ) { innerPadding ->
         Text(text = "home screen", modifier = modifier.padding(innerPadding))
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+private fun isPhotoPickerAvailable(): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        true
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        getExtensionVersion(Build.VERSION_CODES.R) >= 2
+    } else {
+        false
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+fun handlePhotoPickerLaunch() {
+    if (isPhotoPickerAvailable()) {
+        println("working")
+        // To launch the system photo picker, invoke an intent that includes the
+        // ACTION_PICK_IMAGES action. Consider adding support for the
+        // EXTRA_PICK_IMAGES_MAX intent extra.
+        MainActivity().pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+//                    MainActivity().selectImage()
+    } else {
+        // Consider implementing fallback functionality so that users can still
+        // select images and videos.
+        println("NOT working")
     }
 }
