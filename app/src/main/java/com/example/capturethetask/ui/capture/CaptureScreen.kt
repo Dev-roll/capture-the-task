@@ -1,15 +1,21 @@
 package com.example.capturethetask.ui.capture
 
+import android.util.Log
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.capturethetask.MainActivity
 import com.example.capturethetask.R
 import com.example.capturethetask.ui.AppViewModelProvider
 import com.example.capturethetask.ui.components.CttTopAppBar
@@ -40,15 +46,22 @@ fun CaptureScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = navigateToTaskEntry,
-                modifier = Modifier.navigationBarsPadding()
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.PhotoCamera,
-                    contentDescription = stringResource(R.string.task_entry_title),
-                    tint = MaterialTheme.colors.onPrimary
-                )
+            Row {
+                FloatingActionButton(
+                    onClick = navigateToTaskEntry,
+                    modifier = Modifier.navigationBarsPadding()
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.PhotoCamera,
+                        contentDescription = stringResource(R.string.capture_button),
+                        tint = MaterialTheme.colors.onPrimary
+                    )
+                }
+                IconButton(onClick = { /*TODO*/
+                    MainActivity().selectImage()
+                }) {
+                    Icon(imageVector = Icons.Rounded.Image, contentDescription = stringResource(id = R.string.pick_button))
+                }
             }
         },
         floatingActionButtonPosition = FabPosition.Center,
