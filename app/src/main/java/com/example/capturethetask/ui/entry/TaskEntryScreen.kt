@@ -2,6 +2,7 @@ package com.example.capturethetask.ui.entry
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddTask
@@ -18,6 +19,7 @@ import androidx.compose.ui.focus.focusOrder
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.capturethetask.R
@@ -120,14 +122,11 @@ fun TaskInputForm(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .focusRequester(titleFocusRequester)
-                .focusOrder(titleFocusRequester) {
-                    next = descriptionFocusRequester
-                    down = descriptionFocusRequester
-                },
+                .focusRequester(titleFocusRequester),
             enabled = enabled,
             singleLine = true,
-            keyboardActions = KeyboardActions { focusManager.moveFocus(FocusDirection.Next) }
+//            keyboardActions = KeyboardActions { focusManager.moveFocus(FocusDirection.Next) },
+            keyboardOptions = KeyboardOptions( imeAction = ImeAction.Next )
         )
         OutlinedTextField(
             value = taskDetails.description,
@@ -141,8 +140,7 @@ fun TaskInputForm(
                 )
             },
             modifier = Modifier
-                .fillMaxWidth()
-                .focusRequester(descriptionFocusRequester),
+                .fillMaxWidth(),
             enabled = enabled,
             singleLine = false
         )
