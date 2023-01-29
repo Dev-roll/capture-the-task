@@ -9,4 +9,6 @@ val LightPrimary = Color(0xFF006399)
 val LightPrimaryVariant = Color(0xFFCDE5FF)
 val LightSecondary = Color(0xFF4E6072)
 
-val StarColor = Color(0xFFD8CA00)
+val DoneColor = Color(0xAA4BB3FF)
+val StarOnColor = Color(0xAAFACF38)
+val OffColor = Color(0xAAEEEEEE)
