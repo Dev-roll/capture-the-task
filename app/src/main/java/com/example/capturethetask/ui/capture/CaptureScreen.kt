@@ -15,12 +15,16 @@ import com.example.capturethetask.ui.AppViewModelProvider
 import com.example.capturethetask.ui.components.CttTopAppBar
 import com.example.capturethetask.ui.home.HomeViewModel
 import com.example.capturethetask.ui.navigation.NavigationDestination
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
 object CaptureDestination : NavigationDestination {
     override val route = "capture"
     override val titleRes = R.string.capture_title
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CaptureScreen(
     navigateBack: () -> Unit,
@@ -31,6 +35,10 @@ fun CaptureScreen(
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val cameraPermissionState = rememberPermissionState(
+        android.Manifest.permission.CAMERA
+    )
+
     Scaffold(
         topBar = {
             CttTopAppBar(
@@ -53,6 +61,10 @@ fun CaptureScreen(
         },
         floatingActionButtonPosition = FabPosition.Center,
     ) { innerPadding ->
-        Text(text = "home screen", modifier = modifier.padding(innerPadding))
+        if (cameraPermissionState.status.isGranted) {
+            Text(text = "home screen", modifier = modifier.padding(innerPadding))
+        } else {
+            cameraPermissionState.launchPermissionRequest()
+        }
     }
 }
