@@ -12,6 +12,10 @@ class TasksRepositoryImpl(private val taskDao: TaskDao) : TasksRepository {
 
     override suspend fun activateTask(task: Task) = taskDao.updateCompleted(task.id, false)
 
+    override suspend fun starTask(task: Task) = taskDao.updateStarred(task.id, true)
+
+    override suspend fun unStarTask(task: Task) = taskDao.updateStarred(task.id, false)
+
     override suspend fun deleteTask(task: Task) = taskDao.delete(task)
 
     override suspend fun updateTask(task: Task) = taskDao.update(task)

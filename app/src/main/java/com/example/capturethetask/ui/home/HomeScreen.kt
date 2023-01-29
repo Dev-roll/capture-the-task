@@ -62,6 +62,7 @@ fun HomeScreen(
             itemList = homeUiState.itemList,
             onTaskClick = navigateToTaskUpdate,
             onTaskCheckedChange = viewModel::completeTask,
+            onTaskStarredChange = viewModel::starTask,
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -72,6 +73,7 @@ private fun HomeBody(
     itemList: List<Task>,
     onTaskClick: (String) -> Unit,
     onTaskCheckedChange: (Task, Boolean) -> Unit,
+    onTaskStarredChange: (Task, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -89,7 +91,8 @@ private fun HomeBody(
             TaskList(
                 itemList = itemList,
                 onTaskClick = { onTaskClick(it.id) },
-                onTaskCheckedChange = onTaskCheckedChange
+                onTaskCheckedChange = onTaskCheckedChange,
+                onTaskStarredChange = onTaskStarredChange
             )
         }
     }
@@ -100,6 +103,7 @@ private fun TaskList(
     itemList: List<Task>,
     onTaskClick: (Task) -> Unit,
     onTaskCheckedChange: (Task, Boolean) -> Unit,
+    onTaskStarredChange: (Task, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -107,7 +111,9 @@ private fun TaskList(
             TaskItem(
                 task = item,
                 onTaskClick = onTaskClick,
-                onCheckedChange = { onTaskCheckedChange(item, it) })
+                onCompletedChange = { onTaskCheckedChange(item, it) },
+                onStarredChange = { onTaskStarredChange(item, it) }
+            )
             Divider()
         }
     }
@@ -117,7 +123,8 @@ private fun TaskList(
 private fun TaskItem(
     task: Task,
     onTaskClick: (Task) -> Unit,
-    onCheckedChange: (Boolean) -> Unit,
+    onCompletedChange: (Boolean) -> Unit,
+    onStarredChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box {
@@ -132,11 +139,20 @@ private fun TaskItem(
 //            val checked by remember { mutableStateOf(task.isCompleted) }
             IconToggleButton(
                 checked = task.isCompleted,
-                onCheckedChange = onCheckedChange,
+                onCheckedChange = onCompletedChange,
             ) {
                 Icon(
                     imageVector = if (task.isCompleted) Icons.Rounded.TaskAlt else Icons.Rounded.RadioButtonUnchecked,
                     contentDescription = if (task.isCompleted) "check on" else "check off",
+                )
+            }
+            IconToggleButton(
+                checked = task.isStarred,
+                onCheckedChange = onStarredChange,
+            ) {
+                Icon(
+                    imageVector = if (task.isStarred) Icons.Rounded.Star else Icons.Rounded.StarBorder,
+                    contentDescription = if (task.isStarred) "check on" else "check off",
                 )
             }
         }

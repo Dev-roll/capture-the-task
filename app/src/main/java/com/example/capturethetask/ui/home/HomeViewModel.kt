@@ -26,6 +26,14 @@ class HomeViewModel(private val tasksRepository: TasksRepository) : ViewModel() 
         }
     }
 
+    fun starTask(task: Task, starred: Boolean) = viewModelScope.launch {
+        if (starred) {
+            tasksRepository.starTask(task)
+        } else {
+            tasksRepository.unStarTask(task)
+        }
+    }
+
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }
