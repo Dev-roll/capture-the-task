@@ -3,8 +3,6 @@ package com.example.capturethetask.ui.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
@@ -22,6 +20,9 @@ import com.example.capturethetask.model.Task
 import com.example.capturethetask.ui.AppViewModelProvider
 import com.example.capturethetask.ui.components.CttTopAppBar
 import com.example.capturethetask.ui.navigation.NavigationDestination
+import com.example.capturethetask.ui.theme.DoneColor
+import com.example.capturethetask.ui.theme.OffColor
+import com.example.capturethetask.ui.theme.StarOnColor
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
@@ -105,17 +106,25 @@ private fun TaskList(
     modifier: Modifier = Modifier
 ) {
     val listChunked = itemList.chunked(2)
-    for (sweetsRowList in listChunked) {
-        Row(modifier = modifier) {
-            for (sweets in sweetsRowList) {
-                TaskItem(
-                    task = sweets,
-                    onTaskClick = onTaskClick,
-                    onCompletedChange = { onTaskCheckedChange(sweets, it) },
-                    onStarredChange = { onTaskStarredChange(sweets, it) }
-                )
+    BoxWithConstraints {
+        val screenWidth = 200
+//        val screenWidth = with(LocalDensity.current) { constraints.maxWidth / 4 }
+        Column {
+            for (sweetsRowList in listChunked) {
+                Row(modifier = modifier) {
+                    for (sweets in sweetsRowList) {
+                        TaskItem(
+                            task = sweets,
+                            onTaskClick = onTaskClick,
+                            onCompletedChange = { onTaskCheckedChange(sweets, it) },
+                            onStarredChange = { onTaskStarredChange(sweets, it) },
+                            width = screenWidth.toDouble()
+                        )
+                    }
+                }
             }
         }
+
     }
 
 //    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -137,49 +146,49 @@ private fun TaskItem(
     onTaskClick: (Task) -> Unit,
     onCompletedChange: (Boolean) -> Unit,
     onStarredChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    width: Double
 ) {
     Box {
-        val screenWidth = 400.dp
         Row(modifier = modifier
-            .width(screenWidth / 2)
+            .width(width.dp)
             .clickable { onTaskClick(task) }
             .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(){IconToggleButton(
-                checked = task.isCompleted,
-                onCheckedChange = onCompletedChange,
-            ) {
-                Icon(
-                    imageVector = if (task.isCompleted) Icons.Rounded.TaskAlt else Icons.Rounded.RadioButtonUnchecked,
-                    contentDescription = if (task.isCompleted) "check on" else "check off",
-                )
-            }
-            Text(
-                text = task.title,
-            )}
-            Row(){
+            Column {
+                Row() {
+                    IconToggleButton(
+                        checked = task.isCompleted,
+                        onCheckedChange = onCompletedChange,
+                    ) {
+                        Icon(
+                            imageVector = if (task.isCompleted) Icons.Rounded.TaskAlt else Icons.Rounded.RadioButtonUnchecked,
+                            contentDescription = if (task.isCompleted) "check on" else "check off",
+                            tint = if (task.isCompleted) DoneColor else OffColor
+                        )
+                    }
+                    Text(
+                        text = task.title,
+                    )
+                    IconToggleButton(
+                        checked = task.isStarred,
+                        onCheckedChange = onStarredChange,
+                    ) {
+                        Icon(
+                            imageVector = if (task.isStarred) Icons.Rounded.Star else Icons.Rounded.StarBorder,
+                            contentDescription = if (task.isStarred) "check on" else "check off",
+                            tint = if (task.isStarred) StarOnColor else OffColor
+                        )
+                    }
+                }
                 Image(
                     painter = rememberAsyncImagePainter(task.filePath),
                     contentDescription = "captured image",
                     contentScale = ContentScale.FillHeight,
-                    modifier = Modifier.size(64.dp)
+                    modifier = Modifier.size((width / 1).dp)
                 )
-//                Text(
-//                    text = task.title,
-//                )
-                IconToggleButton(
-                    checked = task.isStarred,
-                    onCheckedChange = onStarredChange,
-                ) {
-                    Icon(
-                        imageVector = if (task.isStarred) Icons.Rounded.Star else Icons.Rounded.StarBorder,
-                        contentDescription = if (task.isStarred) "check on" else "check off",
-                    )
-                }
             }
         }
     }
-
 }
