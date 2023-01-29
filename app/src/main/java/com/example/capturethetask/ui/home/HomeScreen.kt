@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -130,16 +131,6 @@ private fun TaskItem(
             .clickable { onTaskClick(task) }
             .padding(vertical = 16.dp)
         ) {
-            Text(
-                text = task.title,
-            )
-
-            // TODO: 画像が表示されない
-            Image(
-                painter = rememberAsyncImagePainter(task.filePath),
-                contentDescription = "captured image"
-            )
-
             IconToggleButton(
                 checked = task.isCompleted,
                 onCheckedChange = onCompletedChange,
@@ -149,6 +140,15 @@ private fun TaskItem(
                     contentDescription = if (task.isCompleted) "check on" else "check off",
                 )
             }
+            Image(
+                painter = rememberAsyncImagePainter(task.filePath),
+                contentDescription = "captured image",
+                contentScale = ContentScale.FillHeight,
+                modifier = Modifier.size(64.dp)
+            )
+            Text(
+                text = task.title,
+            )
             IconToggleButton(
                 checked = task.isStarred,
                 onCheckedChange = onStarredChange,
