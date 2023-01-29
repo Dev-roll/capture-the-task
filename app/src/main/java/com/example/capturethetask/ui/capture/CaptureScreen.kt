@@ -69,6 +69,15 @@ fun CaptureScreen(
     )
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    var previewUseCase by remember {
+        mutableStateOf<UseCase>(Preview.Builder().build())
+    }
+    val imageCaptureUseCase by remember {
+        mutableStateOf(
+            ImageCapture.Builder().setCaptureMode(CAPTURE_MODE_MAXIMIZE_QUALITY).build()
+        )
+    }
+
     Scaffold(
         topBar = {
             CttTopAppBar(
@@ -79,36 +88,7 @@ fun CaptureScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToTaskEntry,
-                modifier = Modifier.navigationBarsPadding()
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.PhotoCamera,
-                    contentDescription = stringResource(R.string.task_entry_title),
-                    tint = MaterialTheme.colors.onPrimary
-                )
-            }
-        },
-        floatingActionButtonPosition = FabPosition.Center,
-    ) { innerPadding ->
-        if (cameraPermissionState.status.isGranted) {
-            Text(text = "home screen", modifier = modifier.padding(innerPadding))
-
-            var previewUseCase by remember {
-                mutableStateOf<UseCase>(Preview.Builder().build())
-            }
-            val imageCaptureUseCase by remember {
-                mutableStateOf(
-                    ImageCapture.Builder().setCaptureMode(CAPTURE_MODE_MAXIMIZE_QUALITY).build()
-                )
-            }
-
-            Box {
-                CameraPreview(
-                    modifier = Modifier.fillMaxSize(),
-                    onUseCase = { previewUseCase = it }
-                )
-                Button(onClick = {
+                onClick = {
                     coroutineScope.launch {
                         val savedFile = imageCaptureUseCase.takePicture(context.executor)
                         onImageFile(savedFile)
@@ -124,9 +104,26 @@ fun CaptureScreen(
                             navController.navigate("task_entry/${uriEncoded}")
                         }
                     }
-                }) {
-                    Text(text = "Click")
-                }
+                },
+                modifier = Modifier.navigationBarsPadding()
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.PhotoCamera,
+                    contentDescription = stringResource(R.string.task_entry_title),
+                    tint = MaterialTheme.colors.onPrimary
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+    ) { innerPadding ->
+        if (cameraPermissionState.status.isGranted) {
+            Text(text = "", modifier = modifier.padding(innerPadding))
+
+            Box {
+                CameraPreview(
+                    modifier = Modifier.fillMaxSize(),
+                    onUseCase = { previewUseCase = it }
+                )
             }
             LaunchedEffect(previewUseCase) {
                 val cameraProvider = context.getCameraProvider()

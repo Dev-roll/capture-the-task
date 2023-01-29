@@ -147,19 +147,19 @@ private fun TaskItem(
             .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            Row(){IconToggleButton(
+                checked = task.isCompleted,
+                onCheckedChange = onCompletedChange,
+            ) {
+                Icon(
+                    imageVector = if (task.isCompleted) Icons.Rounded.TaskAlt else Icons.Rounded.RadioButtonUnchecked,
+                    contentDescription = if (task.isCompleted) "check on" else "check off",
+                )
+            }
             Text(
                 text = task.title,
-            )
+            )}
             Row(){
-                IconToggleButton(
-                    checked = task.isCompleted,
-                    onCheckedChange = onCompletedChange,
-                ) {
-                    Icon(
-                        imageVector = if (task.isCompleted) Icons.Rounded.TaskAlt else Icons.Rounded.RadioButtonUnchecked,
-                        contentDescription = if (task.isCompleted) "check on" else "check off",
-                    )
-                }
                 Image(
                     painter = rememberAsyncImagePainter(task.filePath),
                     contentDescription = "captured image",
