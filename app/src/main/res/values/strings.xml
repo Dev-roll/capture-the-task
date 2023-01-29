@@ -3,19 +3,19 @@
     <string name="app_name">Capture The Task</string>
 
     <!-- Home -->
-    <string name="home_title">Home</string>
-    <string name="add_button">Add a New Task</string>
+    <string name="home_title">Capture The Task</string>
+    <string name="add_button">タスクを追加</string>
 
     <!-- Capture -->
-    <string name="capture_title">Capture</string>
+    <string name="capture_title">タスクを追加</string>
 
     <!-- Entry -->
-    <string name="task_entry_title">New Task</string>
-    <string name="task_title_req">Title</string>
-    <string name="task_description_req">Description</string>
-    <string name="save_action">Save</string>
+    <string name="task_entry_title">説明を追加</string>
+    <string name="task_title_req">タイトル</string>
+    <string name="task_description_req">詳細</string>
+    <string name="save_action">保存</string>
 
     <!-- Other -->
-    <string name="back_button">Back</string>
-    <string name="no_item_description">no_item_description</string>
+    <string name="back_button">戻る</string>
+    <string name="no_item_description">まだタスクは追加されていません</string>
 </resources>
