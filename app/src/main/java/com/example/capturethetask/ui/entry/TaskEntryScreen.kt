@@ -1,5 +1,6 @@
 package com.example.capturethetask.ui.entry
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -19,11 +20,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.capturethetask.R
 import com.example.capturethetask.ui.AppViewModelProvider
 import com.example.capturethetask.ui.components.CttTopAppBar
 import com.example.capturethetask.ui.navigation.NavigationDestination
 import kotlinx.coroutines.launch
+
 
 object TaskEntryDestination : NavigationDestination {
     override val route = "task_entry/{uri}"
@@ -79,10 +82,12 @@ fun TaskEntryBody(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
-//        val res = URLDecoder.decode(uri, StandardCharsets.UTF_8.toString())
         TaskInputForm(taskDetails = taskUiState.taskDetails, onValueChange = onTaskValueChange)
         Button(
-            onClick = onSaveClick,
+            onClick = {
+                onTaskValueChange(taskUiState.taskDetails.copy(filepath = uri))
+                onSaveClick()
+            },
             enabled = taskUiState.isEntryValid,
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -95,7 +100,11 @@ fun TaskEntryBody(
                 Text(stringResource(R.string.save_action))
             }
         }
-        Text(text = uri)
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = rememberAsyncImagePainter(uri),
+            contentDescription = "captured image"
+        )
     }
 }
 

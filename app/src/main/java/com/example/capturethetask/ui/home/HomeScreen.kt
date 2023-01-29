@@ -1,5 +1,6 @@
 package com.example.capturethetask.ui.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,18 +8,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
-import androidx.compose.runtime.*
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.capturethetask.R
 import com.example.capturethetask.model.Task
 import com.example.capturethetask.ui.AppViewModelProvider
@@ -136,7 +133,13 @@ private fun TaskItem(
             Text(
                 text = task.title,
             )
-//            val checked by remember { mutableStateOf(task.isCompleted) }
+
+            // TODO: 画像が表示されない
+            Image(
+                painter = rememberAsyncImagePainter(task.filePath),
+                contentDescription = "captured image"
+            )
+
             IconToggleButton(
                 checked = task.isCompleted,
                 onCheckedChange = onCompletedChange,
